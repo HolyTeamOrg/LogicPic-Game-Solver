@@ -6,15 +6,11 @@ El desafio consiste en que cada columna y fila, solo pueden estar coloreados ese
 __Ejemplos en tablero de 3x3__: 
 
 Filas donde solo existe existe 1 posibilidad :
-  - (1,1):  101. 
-  - (3)  :  111
-
 
 | notacion      | BooleanCode   |
 | ------------- |:-------------:| 
-| (1,1)     | 101 | 
-| (3)      | 111      |
-
+| (1,1)         |           101 | 
+| (3)           |           111 |
 
 Filas donde hay 2 posibilidades:
 
