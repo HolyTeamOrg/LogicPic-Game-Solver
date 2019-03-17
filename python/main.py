@@ -11,7 +11,7 @@ reated on Sun Mar 17 04:17:17 2019
 """
 
 from itertools import combinations_with_replacement, permutations
-
+import numpy as np
 
 """ 
 Dado una fil/col de longitud l, el numero de posibles combinaciones de
@@ -34,6 +34,7 @@ nos aparece el (1,0,1).
 
 print(list(permutations( [0,0,1]) ))
 """
+print(list(permutations( [0,0,1]) ))
 Out[]: [ (0, 0, 1),
          (0, 1, 0),
          (0, 0, 1),
@@ -47,6 +48,7 @@ el calculo para g(2) en f/c de l=3
 """
 print(list(permutations( [0,1,1]) ))
 """
+print(list(permutations( [0,1,1]) ))
 Out[]: [ (0, 1, 1),
          (0, 1, 1),
          (1, 0, 1),
@@ -60,6 +62,47 @@ Aqui nos aparecen resultados que no corresponden a g(2), que son
 ¿Habra otra forma de generar las combinaciones que necesitamos, o necesitamos
 generarlas todas y luego descartar?
 """
+
+def gen_per( n, length ):
+    rango = list(np.ones(n, dtype = bool)) + list(np.zeros(length-n, dtype = bool) )
+    for per in permutations( rango ):
+        print(list(per))
+        
+
+"""
+Para poder descartar permutaciones, vamos a traducirlas a la notacion de 
+grupos [True False True ] -> (1,1)
+"""
+
+def trad_per( permu ):
+    cnt =  0
+    ls = []
+    for i in permu:
+        if i:
+            cnt =+ 1
+        else:
+            if cnt != 0:
+                ls.append(cnt)
+                cnt = 0 # todo, no funciona porque cuando llega al ultimo elemento
+                        # no guarda el resultado en la lista
+    return ls
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
