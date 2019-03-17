@@ -13,8 +13,6 @@ reated on Sun Mar 17 04:17:17 2019
 from itertools import combinations_with_replacement, permutations
 import numpy as np
 
-from functools import wraps 
-
 """ 
 Dado una fil/col de longitud l, el numero de posibles combinaciones de
 ceros y unos que puedo conseguir, es una combinacion con reemplazamiento, 
@@ -66,45 +64,51 @@ generarlas todas y luego descartar?
 """
 
 def gen_per( n, length ):
-    """ Imprime en CommandWindow las permutaciones posibles"""
+    """ Imprime en CommandWindow las permutaciones posibles dado un grupo de 
+    longitud n, en una fil, col de long lengyh
+    
+    Devuelve el generador permutations"""
+    
     rango = list(np.ones(n, dtype = bool)) + list(np.zeros(length-n, dtype = bool) )
-    for per in permutations( rango ):
-        print(list(per))
+#    for per in permutations( rango ):
+#        print(list(per))
+        
     return permutations( rango )
     
-permu = gen_per(2, 4)
+permu = gen_per(2, 4) 
+ls_permu = list( gen_per(2, 4) ) # si uso list(permu), el generador se agota y no se volver a usarlo
 
 """
 Para poder descartar permutaciones, vamos a traducirlas a la notacion de 
 grupos [True False True ] -> (1,1)
 """
 
-def trad_per_ERROR( permu ):
+def trad_per( permu ):
     cnt =  0
     ls = []
     for i in permu:
         if i:
-            cnt =+ 1
+            cnt = cnt + 1
         else:
-            if cnt != 0:
-                ls.append(cnt)
-                cnt = 0 # todo, no funciona porque cuando llega al ultimo elemento
-                        # no guarda el resultado en la lista
-    return ls
-                
+            ls.append(cnt)
+            cnt = 0
+    ls.append(cnt)
+             
+    return list(filter((0).__ne__, ls))
 
-"""
-TODO: Vamos a generar una solucion algo más elegante que usar enumerate o 
-if i == len( permu )
-"""
- 
+grup = trad_per([0,0,1,1,0,1])
+print(grup)
 
 """ 
 TODO: Utilizaremos la funcion map para poder pasar a esta funcion traductora 
 todo el iterador permutations.
 """
 
+ls_grup = list(map(trad_per, permu))
 
+""" TODO: llamar de forma recursiva a gen_per para poder darle como argumento 
+varios grupos, tal que (2,3,1)
+"""
 
 
 
