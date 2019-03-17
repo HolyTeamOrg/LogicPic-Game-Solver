@@ -13,6 +13,8 @@ reated on Sun Mar 17 04:17:17 2019
 from itertools import combinations_with_replacement, permutations
 import numpy as np
 
+from functools import wraps 
+
 """ 
 Dado una fil/col de longitud l, el numero de posibles combinaciones de
 ceros y unos que puedo conseguir, es una combinacion con reemplazamiento, 
@@ -64,17 +66,20 @@ generarlas todas y luego descartar?
 """
 
 def gen_per( n, length ):
+    """ Imprime en CommandWindow las permutaciones posibles"""
     rango = list(np.ones(n, dtype = bool)) + list(np.zeros(length-n, dtype = bool) )
     for per in permutations( rango ):
         print(list(per))
-        
+    return permutations( rango )
+    
+permu = gen_per(2, 4)
 
 """
 Para poder descartar permutaciones, vamos a traducirlas a la notacion de 
 grupos [True False True ] -> (1,1)
 """
 
-def trad_per( permu ):
+def trad_per_ERROR( permu ):
     cnt =  0
     ls = []
     for i in permu:
@@ -88,12 +93,16 @@ def trad_per( permu ):
     return ls
                 
 
+"""
+TODO: Vamos a generar una solucion algo más elegante que usar enumerate o 
+if i == len( permu )
+"""
+ 
 
-
-
-
-
-
+""" 
+TODO: Utilizaremos la funcion map para poder pasar a esta funcion traductora 
+todo el iterador permutations.
+"""
 
 
 
