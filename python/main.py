@@ -12,7 +12,7 @@ reated on Sun Mar 17 04:17:17 2019
 
 from itertools import combinations_with_replacement, permutations
 import numpy as np
-
+import pandas as pd
 """ 
 Dado una fil/col de longitud l, el numero de posibles combinaciones de
 ceros y unos que puedo conseguir, es una combinacion con reemplazamiento, 
@@ -76,8 +76,8 @@ def gen_per( n, length ):
     return permutations( rango )
     
 permu = gen_per(2, 4) 
-ls_permu = list( gen_per(2, 4) ) # si uso list(permu), el generador se agota y no se volver a usarlo
-
+ls_permu = list( permu ) # if you consume the generator, you can use it again... can you?
+    
 """
 Para poder descartar permutaciones, vamos a traducirlas a la notacion de 
 grupos [True False True ] -> (1,1)
@@ -96,29 +96,45 @@ def trad_per( permu ):
              
     return list(filter((0).__ne__, ls))
 
-grup = trad_per([0,0,1,1,0,1])
+grup = trad_per([0,0,1,1,0,1,0,1,1,1])
 print(grup)
-
+ 
 """ 
-TODO: Utilizaremos la funcion map para poder pasar a esta funcion traductora 
+Utilizaremos la funcion map para poder pasar a esta funcion traductora 
 todo el iterador permutations.
 """
-
+permu = gen_per(2, 4) 
 ls_grup = list(map(trad_per, permu))
+
+# En el entorno de spyder, podemos verlo con más claridad de esta forma.
+df = pd.DataFrame(ls_permu).astype(int)
 
 """ TODO: llamar de forma recursiva a gen_per para poder darle como argumento 
 varios grupos, tal que (2,3,1)
 """
 
+""" Vamos a calular la long minima que puede tener un grupo dado """
+def gr_long_min( grup ):
+    """ calular la long minima que puede tener un grupo dado """
+    return np.sum( grup ) + len( grup ) -1 
 
+""" Dado un grupo de n_elementos >1, llamamos recursivamente a gen_per hasta 
+que el gr_long_min sea mayor o igual que las celdas vacias. """
 
-
-
-
-
-
-
-
+"""
+grup = (4,1)
+length = 6
+ 
+def gen_multi_grup_permu( grup, lenght ): 
+    
+    if length > gr_long_min(grup):
+        raise ValueError(' EL grupo no es compatible con la longitud' )
+    else:
+        for i in grup:
+            while length > i + 1:
+                # no tengo nada claro como montar este bucle
+             
+"""
 
 
 
