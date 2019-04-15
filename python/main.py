@@ -59,7 +59,7 @@ def space_needs(group):
     :rtype: integer
 
     :example:
-    Let be [2,3,1] --> 2 + space + 3 +space +1 == 8
+    Let be [2,3,1] --> 2 + space + 3 + space + 1 == 8
     """
     return np.sum(group) + len(group) - 1
 
@@ -77,53 +77,46 @@ def main():
     """
     Given a row/col of length l, the number of possible combinations of 0 and 1,
     is a combination with replacement.
-    """
-    list(combinations_with_replacement([0, 1], 3))
-    """
-    Out[]: [(0, 0, 0), 
-            (0, 0, 1), 
-            (0, 1, 1), 
-            (1, 1, 1)]
+
+    >>> list(combinations_with_replacement([0, 1], 3))
+    >>> [(0, 0, 0),
+    >>>  (0, 0, 1),
+    >>>  (0, 1, 1),
+    >>>  (1, 1, 1)]
     
     Remark here that the order doesn't matter, so the combination (1,0,1) is not shown,
     thus is equivalent as (0,1,1) 
     
     What we need is the list of all permutations.
     Example, given row/col like (0,0,1)
+
+    >>> list( permutations([0, 0, 1]) )
+    >>> [(0, 0, 1),
+    >>>  (0, 1, 0),
+    >>>  (0, 0, 1),
+    >>>  (0, 1, 0),
+    >>>  (1, 0, 0),
+    >>>  (1, 0, 0)]
     
-    """
-    list( permutations([0, 0, 1]) )
-    """
-    print(list(permutations( [0,0,1]) ))
-    Out[]: [ (0, 0, 1),
-             (0, 1, 0),
-             (0, 0, 1),
-             (0, 1, 0),
-             (1, 0, 0),
-             (1, 0, 0) ]
-    
-    These are the permutations for an element of size 1 in a spce of size 3. 
+    These are the permutations for an element of size 1 in a space of size 3.
     
     So, if we have a element(2) in space(3)
-    """
-    list(permutations([0, 1, 1]))
+    >>> list(permutations([0, 1, 1]))
 
 
+    We use map function to pass the generator to translate_per
+    >>> n, s = 2, 4
+    >>> ls_permu = gen_per(n, s)
 
-    # We use map function to pass the generator to translate_per
-    n, s = 2, 4
-    ls_permu = gen_per(n, s)
-
-
-    # We can inspect this list of list better if we pass it into pandas
-    df_permu = pd.DataFrame(ls_permu).astype(int)
+    We can inspect this list of list better if we pass it into pandas
+    >>> df_permu = pd.DataFrame(ls_permu).astype(int)
 
     # Let be a group with k element of size n
     # *group notation: (n_i, ..., n_k)
     #
     # Thus, gen_per(n,s)
 
-    """ todo : llamar de forma recursiva a gen_per para poder darle como argumento 
+    todo : llamar de forma recursiva a gen_per para poder darle como argumento
     varios grupos, tal que (2,3,1)
     
 
