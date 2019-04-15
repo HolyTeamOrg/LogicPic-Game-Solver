@@ -22,6 +22,10 @@ def translate_per(permu):
     :type permu: list or tuple of integers
     :param permu: the permutation in boolean notation
     :return: list
+
+    :example:
+    >>> translate_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
+    >>> [2,1,3]
     """
     cnt = 0
     ls = []
@@ -105,13 +109,11 @@ def main():
     list(permutations([0, 1, 1]))
 
 
-    group = translate_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
 
     # We use map function to pass the generator to translate_per
     n, s = 2, 4
-    permu = gen_per(n, s)
-    ls_permu_bad = list(permu)
-    ls_permu = [i for i in ls_permu_bad if len(translate_per(i)) == 1]
+    ls_permu = gen_per(n, s)
+
 
     # We can inspect this list of list better if we pass it into pandas
     df_permu = pd.DataFrame(ls_permu).astype(int)
