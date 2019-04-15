@@ -16,17 +16,16 @@ import pandas as pd
 
 
 # FUNCTIOS DEFINITION
-def gen_per(n, space):
-    """ Imprime en CommandWindow las permutaciones posibles dado un grupo de
-    longitud n, en una fil/col de espacio space
+def gen_per(n, s):
+    """
+    Calculates the permutations for a element of size 'n' in a space of length space 's'
 
-    Devuelve el generador permutations"""
-
-    rango = list(np.ones(n, dtype=bool)) + list(np.zeros(space - n, dtype=bool))
-    #    for per in permutations( rango ):
-    #        print(list(per))
-
-    return permutations(rango)
+    :param: n
+    :param: s
+    :return: generator
+    """
+    rang = list(np.ones(n, dtype=bool)) + list(np.zeros(s - n, dtype=bool))
+    return permutations(rang)
 
 
 def trad_per(permu):
@@ -80,8 +79,11 @@ def main():
     
     Remark here that the order doesn't matter, so the combination (1,0,1) is not shown,
     thus is equivalent as (0,1,1) 
+    
+    What we need is the list of all permutations.
+    Example, given a element of size 1 with 3 spaces.
+    
     """
-
     print(list(permutations([0, 0, 1])))
     """
     print(list(permutations( [0,0,1]) ))
@@ -111,8 +113,12 @@ def main():
     
     ¿Habra otra forma de generar las combinaciones que necesitamos, o necesitamos
     generarlas todas y luego descartar?
+    
+    Let be a group with k element of size n 
+    *group notation: (n_i, ..., n_k)
+    
+    Thus, gen_per(n,s)
     """
-
     permu = gen_per(2, 4)
     ls_permu = list(permu)  # if you consume the generator, you can use it again... can you?
 
