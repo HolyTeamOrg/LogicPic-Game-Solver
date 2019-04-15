@@ -15,19 +15,8 @@ import numpy as np
 import pandas as pd
 
 
-# FUNCTIOS DEFINITION
-def gen_per(n, s):
-    """ Calculates the permutations for a element of size 'n' in a space of length space 's'
-
-    :param: n
-    :param: s
-    :return: generator
-    """
-    rang = list(np.ones(n, dtype=bool)) + list(np.zeros(s - n, dtype=bool))
-    return permutations(rang)
-
-
-def trad_per(permu):
+# FUNCTIONS DEFINITION
+def translate_per(permu):
     """ Given bool notation (1,0,0,1,1) --> [1,2]
 
     :type permu: list or tuple of integers
@@ -46,6 +35,19 @@ def trad_per(permu):
 
     return list(filter((0).__ne__, ls))
 
+def gen_per(n, s):
+    """ Calculates the permutations for a element of size 'n' in a space of length space 's'
+
+    :param: n
+    :param: s
+    :return: lst
+    """
+    rang = list(np.ones(n, dtype=bool)) + list(np.zeros(s - n, dtype=bool))
+    ls_permu_bad = list(permutations(rang))
+    # ls_permu_bad return permutations that not contains element of size n. Lets filter them, translating it to
+    # group notation
+    ls_permu = [i for i in ls_permu_bad if len(translate_per(i)) == 1]
+    return ls_permu
 
 def space_needs(group):
     """ Calculates de min space needed for a given group
@@ -83,10 +85,10 @@ def main():
     thus is equivalent as (0,1,1) 
     
     What we need is the list of all permutations.
-    Example, given a element of size 1 with 3 spaces.
+    Example, given row/col like (0,0,1)
     
     """
-    print(list(permutations([0, 0, 1])))
+    list( permutations([0, 0, 1]) )
     """
     print(list(permutations( [0,0,1]) ))
     Out[]: [ (0, 0, 1),
@@ -96,65 +98,39 @@ def main():
              (1, 0, 0),
              (1, 0, 0) ]
     
-    Este seria el ejemplo para calcular el grupo (1) en una f/c de l=3
+    These are the permutations for an element of size 1 in a spce of size 3. 
     
-    el calculo para g(2) en f/c de l=3
+    So, if we have a element(2) in space(3)
     """
-    print(list(permutations([0, 1, 1])))
-    """
-    print(list(permutations( [0,1,1]) ))
-    Out[]: [ (0, 1, 1),
-             (0, 1, 1),
-             (1, 0, 1),
-             (1, 1, 0),
-             (1, 0, 1), 
-             (1, 1, 0)]
-    
-    Aqui nos aparecen resultados que no corresponden a g(2), que son 
-    (1,0,1). 
-    
-    ¿Habra otra forma de generar las combinaciones que necesitamos, o necesitamos
-    generarlas todas y luego descartar?
-    
-    Let be a group with k element of size n 
-    *group notation: (n_i, ..., n_k)
-    
-    Thus, gen_per(n,s)
-    """
-    permu = gen_per(2, 4)
-    ls_permu = list(permu)  # if you consume the generator, you can use it again... can you?
+    list(permutations([0, 1, 1]))
 
-    """
-    Para poder descartar permutaciones, vamos a traducirlas a la notacion de 
-    grupos [True False True ] -> (1,1)
-    """
 
-    group = trad_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
-    print(group)
+    group = translate_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
 
-    """ 
-    Utilizaremos la funcion map para poder pasar a esta funcion traductora 
-    todo el iterador permutations.
-    """
-    i, s = 2, 4
-    permu = gen_per(i, s)
-    ls_permu = list(permu)
-    ls_group = list(map(trad_per, ls_permu))
-    ls_group_corrected = [group_k for group_k in ls_group if len(group_k) == 1]
+    # We use map function to pass the generator to translate_per
+    n, s = 2, 4
+    permu = gen_per(n, s)
+    ls_permu_bad = list(permu)
+    ls_permu = [i for i in ls_permu_bad if len(translate_per(i)) == 1]
 
     # We can inspect this list of list better if we pass it into pandas
     df_permu = pd.DataFrame(ls_permu).astype(int)
 
-    """ TODO: llamar de forma recursiva a gen_per para poder darle como argumento 
+    # Let be a group with k element of size n
+    # *group notation: (n_i, ..., n_k)
+    #
+    # Thus, gen_per(n,s)
+
+    """ todo : llamar de forma recursiva a gen_per para poder darle como argumento 
     varios grupos, tal que (2,3,1)
-    """
+    
 
-    """ Vamos a calular la long minima que puede tener un grupo dado """
+    Vamos a calular la long minima que puede tener un grupo dado
 
-    """ Dado un grupo de n_elementos >1, llamamos recursivamente a gen_per hasta 
-    que el gr_long_min sea mayor o igual que las celdas vacias. """
+    Dado un grupo de n_elementos >1, llamamos recursivamente a gen_per hasta 
+    que el gr_long_min sea mayor o igual que las celdas vacias.
 
-    """
+
     group = (4,1)
     length = 6
      
@@ -166,8 +142,9 @@ def main():
             for i in group:
                 while length > i + 1:
                     # no tengo nada claro como montar este bucle
-                 
     """
+                 
+
 
 if __name__ == '__main__':
     main()
