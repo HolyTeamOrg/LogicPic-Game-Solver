@@ -17,8 +17,7 @@ import pandas as pd
 
 # FUNCTIOS DEFINITION
 def gen_per(n, s):
-    """
-    Calculates the permutations for a element of size 'n' in a space of length space 's'
+    """ Calculates the permutations for a element of size 'n' in a space of length space 's'
 
     :param: n
     :param: s
@@ -48,12 +47,15 @@ def trad_per(permu):
     return list(filter((0).__ne__, ls))
 
 
-def gr_long_min(n):
-    """ Calculates de min space needed for a element of size n
-    :param: n , element size
+def space_needs(group):
+    """ Calculates de min space needed for a given group
+    :param: list , group notation
     :rtype: integer
+
+    :example:
+    Let be [2,3,1] --> 2 + space + 3 +space +1 == 8
     """
-    return np.sum(n) + len(n) - 1
+    return np.sum(group) + len(group) - 1
 
 # ToDo: lets generate the obvious values in a possible group permutation
 def get_invariables(elem, space):
