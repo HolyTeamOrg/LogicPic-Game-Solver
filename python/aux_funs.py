@@ -90,17 +90,26 @@ def trad_min_bool(group):
     """For a group (gi,...,gk), generates the trad to bool notation
     :arg: list or tuple
     :return: array """
-    return np.hstack( [1]*g + [0] for g in group )
+    return np.hstack( [1]*g + [0] for g in group )[:-1]
 
-def gen_shift(group):
+def gen_shift(group, s):
     """For a group (gi,...,gk) and a given space s, generates de shift of the group
     :example:
     >>> group = (3,1,2)
     >>> """
 
     mybool = trad_min_bool(group)
-
-
+    min_space = len(mybool)
+    if s < min_space:
+        return group
+    else:
+        first = np.concatenate( (mybool, np.zeros(s - min_space) ) )
+        solution = [first]
+        sol = first
+        while sol[-1] != 1:
+            sol = np.roll(sol,1)
+            solution = solution + [sol]
+        return np.vstack(solution)
 
 def space_needs(group):
     """ Calculates de min space needed for a given group
