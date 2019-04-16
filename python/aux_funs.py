@@ -123,12 +123,6 @@ def space_needs(group):
     """
     return np.sum(group) + len(group) - 1
 
-def gen_group_per(group):
-    """ Given a group of k elements (ei,..., ek), generate possible permutations"""
-    for e in group:
-        ls_ele = gen_elem_per(e, e+1)
-        #todo: ni idea de como generarlo
-
 def get_invariables(group, s):
     """ Calculates the invariables for a group on a space s
 
