@@ -70,21 +70,6 @@ def translate_per(permu):
     ls.append(cnt)
     return list(filter((0).__ne__, ls))
 
-def gen_elem_per(n, s):
-    """ Calculates the permutations for a element of size 'n' in a space of length space 's'
-
-    :param: n
-    :param: s
-    :return: lst
-    """
-    rang = list(np.ones(n, dtype=bool)) + list(np.zeros(s - n, dtype=bool))
-    ls_permu_bad = list(permutations(rang))
-    # ls_permu_bad return permutations that not contains element of size n. Lets filter them, translating it to
-    # group notation
-    ls_permu = [i for i in ls_permu_bad if len(translate_per(i)) == 1]
-    df = pd.DataFrame(ls_permu).drop_duplicates()
-    #todo: it generates equivalent permutations
-    return df
 
 def trad_min_bool(group):
     """For a group (gi,...,gk), generates the trad to bool notation
