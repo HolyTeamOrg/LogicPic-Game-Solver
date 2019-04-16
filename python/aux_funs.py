@@ -7,7 +7,7 @@ donde i es la longitud/tamaño del grupo, y k el numero de grupos.
 
 reated on Sun Mar 17 04:17:17 2019
 
-@author: TebaPC
+@author: Tebinski
 """
 
 from itertools import combinations_with_replacement, permutations
@@ -15,13 +15,17 @@ import numpy as np
 import pandas as pd
 
 class Permu():
-    def __init__(self, bool_info):
+    def __init__(self):
+        self.bool_info = []
+
+    def def_bool(self, bool_info):
         """ tuple or list as boolean info
         :example: (1,0,0,1)
         """
         self.bool_info = bool_info
 
-    def translate_per(self):
+    @property
+    def group(self):
         """ Given bool notation (1,0,0,1,1) --> [1,2]
 
           :type permu: list or tuple of integers
@@ -82,6 +86,22 @@ def gen_elem_per(n, s):
     #todo: it generates equivalent permutations
     return df
 
+def trad_min_bool(group):
+    """For a group (gi,...,gk), generates the trad to bool notation
+    :arg: list or tuple
+    :return: array """
+    return np.hstack( [1]*g + [0] for g in group )
+
+def gen_shift(group):
+    """For a group (gi,...,gk) and a given space s, generates de shift of the group
+    :example:
+    >>> group = (3,1,2)
+    >>> """
+
+    mybool = trad_min_bool(group)
+
+
+
 def space_needs(group):
     """ Calculates de min space needed for a given group
     :param: list , group notation
@@ -89,6 +109,8 @@ def space_needs(group):
 
     :example:
     Let be [2,3,1] --> 2 + space + 3 + space + 1 == 8
+    >>> space_needs([2,3,1])
+    >>> 8
     """
     return np.sum(group) + len(group) - 1
 
@@ -109,71 +131,4 @@ def get_invariables(n, s):
     df_permu = gen_elem_per(n,s)
     sr_inv = df_permu.all(axis = 0)
     return sr_inv
-
-def main():
-    """
-    Given a row/col of length l, the number of possible combinations of 0 and 1,
-    is a combination with replacement.
-    >>> list(combinations_with_replacement([0, 1], 3))
-    >>> [(0, 0, 0),
-    >>>  (0, 0, 1),
-    >>>  (0, 1, 1),
-    >>>  (1, 1, 1)]
-    
-    Remark here that the order doesn't matter, so the combination (1,0,1) is not shown,
-    thus is equivalent as (0,1,1)
-
-    What we need is the list of all permutations.
-    Example, given row/col like (0,0,1)
-    >>> list( permutations([0, 0, 1]) )
-    >>> [(0, 0, 1),
-    >>>  (0, 1, 0),
-    >>>  (0, 0, 1),
-    >>>  (0, 1, 0),
-    >>>  (1, 0, 0),
-    >>>  (1, 0, 0)]
-    
-    These are the permutations for an element of size 1 in a space of size 3.
-    
-    So, if we have a element(2) in space(3)
-    >>> list(permutations([0, 1, 1]))
-
-    We use map function to pass the generator to translate_per
-    >>> n, s = 2, 4
-    >>> ls_permu = gen_elem_per(n, s)
-
-    We can inspect this list of list better if we pass it into pandas
-    >>> df_permu = pd.DataFrame(ls_permu).astype(int)
-    >>> ar_permu = np.array(ls_permu)
-
-    Let be a group with k element of size n
-    *group notation: (n_i, ..., n_k)
-    Thus, gen_per(n,s)
-
-    todo : call gen_permutations with group like (2,3,1)
-    
-
-    Vamos a calcular la long minima que puede tener un grupo dado
-
-    Dado un grupo de n_elementos >1, llamamos recursivamente a gen_per hasta 
-    que el gr_long_min sea mayor o igual que las celdas vacias.
-
-
-    group = (4,1)
-    length = 6
-     
-    def gen_multi_grup_permu( group, lenght ): 
-        
-        if length > gr_long_min(group):
-            raise ValueError(' EL grupo no es compatible con la longitud' )
-        else:
-            for i in group:
-                while length > i + 1:
-                    # no tengo nada claro como montar este bucle
-    """
-    get_invariables(3,5)
-    print('end')
-
-if __name__ == '__main__':
-    main()
 
