@@ -129,15 +129,12 @@ def gen_group_per(group):
         ls_ele = gen_elem_per(e, e+1)
         #todo: ni idea de como generarlo
 
-def get_invariables(n, s):
-    """ Calculates the invariables for a elem(n) and space(s)
+def get_invariables(group, s):
+    """ Calculates the invariables for a group on a space s
 
     :param n: int
     :param s: integer
     """
-    # ToDo: lets generate the obvious values in a possible group permutation
-
-    df_permu = gen_elem_per(n,s)
-    sr_inv = df_permu.all(axis = 0)
-    return sr_inv
+    ar_possibles = gen_shift(group, s)
+    return np.all(ar_possibles, axis= 0)
 
