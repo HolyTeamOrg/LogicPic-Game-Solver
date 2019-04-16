@@ -52,7 +52,8 @@ class Permu():
 # FUNCTIONS DEFINITION
 def translate_per(bool_notation):
     """ Given bool notation (1,0,..,0,1,1), returns group notation [1,...,2]
-
+    #todo: rewirte this, is not pythonic at all
+        :remenber https://docs.sympy.org/latest/modules/utilities/iterables.html#sympy.utilities.iterables.partitions
       :type bool_notation: list or tuple of integers
       :param bool_notation: the permutation in boolean notation
       :return: list
