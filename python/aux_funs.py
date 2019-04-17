@@ -43,6 +43,10 @@ class Bool_Col():
         ls.append(cnt)
         return list(filter((0).__ne__, ls))
 
+    @property
+    def space(self):
+        return len(self.bool_info)
+
 
 class Group_Col():
     """The Group_Col class,
@@ -53,6 +57,7 @@ class Group_Col():
         :example: (2,3,1) or [2,3,1] """
         self.group = group
 
+    @property
     def min_space(self):
         """ Calculates de min space needed for a given group
         :param: list , group notation
@@ -63,7 +68,7 @@ class Group_Col():
         >>> space_needs([2,3,1])
         >>> 8
         """
-        self.min_space = np.sum(self.group) + len(self.group) - 1
+        return np.sum(self.group) + len(self.group) - 1
 
     @property
     def min_bool(self):
@@ -75,8 +80,6 @@ class Group_Col():
 
 
 # FUNCTIONS DEFINITION
-
-
 
 def gen_shift(group, s):
     """For a group (gi,...,gk) and a given space s, generates de shift of the group
@@ -90,6 +93,7 @@ def gen_shift(group, s):
     mybool = Group_Col.min_bool
     min_space = len(mybool)
     if s < min_space:
+
         return group
     else:
         first = np.concatenate((mybool, np.zeros(s - min_space)))
