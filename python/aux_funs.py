@@ -16,21 +16,16 @@ import pandas as pd
 
 
 # CLASS DEFINITION
-class Permu():
-    """The Permutation class,
-    #todo: change class name"""
 
-    def __init__(self):
-        self.bool_info = []
-
-    def def_bool(self, bool_notation):
+class Bool_Col():
+    def __init__(self, bool_notation):
         """ tuple or list as boolean info
         :example: (1,0,0,1)
         """
         self.bool_info = bool_notation
 
     @property
-    def group(self):
+    def bool_to_group(self):
         """ Given bool_notation (1,0,0,1,1) --> [1,2]
 
           :example:
@@ -46,61 +41,53 @@ class Permu():
                 ls.append(cnt)
                 cnt = 0
         ls.append(cnt)
-        return list( filter( (0).__ne__, ls ) )
+        return list(filter((0).__ne__, ls))
+
+
+class Group_Col():
+    """The Group_Col class,
+    #todo: change class name"""
+
+    def __init__(self, group):
+        """ :param: tuple or list, k elements of size i
+        :example: (2,3,1) or [2,3,1] """
+        self.group = group
+
+    def min_space(self):
+        """ Calculates de min space needed for a given group
+        :param: list , group notation
+        :rtype: integer
+
+        :example:
+        Let be [2,3,1] --> 2 + space + 3 + space + 1 == 8
+        >>> space_needs([2,3,1])
+        >>> 8
+        """
+        self.min_space = np.sum(self.group) + len(self.group) - 1
+
+    @property
+    def min_bool(self):
+        """For a group (gi,...,gk), generates the  minimum possibility in bool notation
+           :arg: list or tuple
+           :return: array """
+        ar_min_bol = np.hstack([1] * g + [0] for g in self.group)[:-1]
+        return ar_min_bol
 
 
 # FUNCTIONS DEFINITION
-def translate_per(bool_notation):
-    """ Given bool notation (1,0,..,0,1,1), returns group notation [1,...,2]
-    #todo: rewirte this, is not pythonic at all
-        :remenber https://docs.sympy.org/latest/modules/utilities/iterables.html#sympy.utilities.iterables.partitions
-      :type bool_notation: list or tuple of integers
-      :param bool_notation: the permutation in boolean notation
-      :return: list
 
-      :example:
-      >>> translate_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
-      >>> [2,1,3]
-      """
-    cnt = 0
-    ls = []
-    for i in bool_notation:
-        if i:
-            cnt = cnt + 1
-        else:
-            ls.append(cnt)
-            cnt = 0
-    ls.append(cnt)
-    return list(filter( (0).__ne__, ls))
-
-
-def trad_min_bool(group):
-    """For a group (gi,...,gk), generates the trad to the minimum possibility in bool notation
-    :arg: list or tuple
-    :return: array """
-    return np.hstack([1] * g + [0] for g in group)[:-1]
-
-
-def space_needs(group):
-    """ Calculates de min space needed for a given group
-    :param: list , group notation
-    :rtype: integer
-
-    :example:
-    Let be [2,3,1] --> 2 + space + 3 + space + 1 == 8
-    >>> space_needs([2,3,1])
-    >>> 8
-    """
-    return np.sum(group) + len(group) - 1
 
 
 def gen_shift(group, s):
     """For a group (gi,...,gk) and a given space s, generates de shift of the group
     :example:
-    >>> group = (3,1,2)
-    >>> """
+    >>> group, space = (3,1,2), 10
+    >>> [ [1,1,1,0,1,0,1,1,0,0],
+    >>>   [0,1,1,1,0,1,0,1,1,0],
+    >>>   [0,0,1,1,1,0,1,0,1,1] ]"""
 
-    mybool = trad_min_bool(group)
+    mygroup = Group_Col(group)
+    mybool = Group_Col.min_bool
     min_space = len(mybool)
     if s < min_space:
         return group
@@ -108,7 +95,7 @@ def gen_shift(group, s):
         first = np.concatenate((mybool, np.zeros(s - min_space)))
         solution = [first]
         sol = first
-        while sol[-1] != 1:
+        for _ in range(s- min_space):
             sol = np.roll(sol, 1)
             solution = solution + [sol]
         return np.vstack(solution)
