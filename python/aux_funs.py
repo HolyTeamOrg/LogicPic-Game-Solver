@@ -24,9 +24,10 @@ class Bool_Col():
         """
         self.bool_info = bool_notation
 
-    @property
+
     def bool_to_group(self):
         """ Given bool_notation (1,0,0,1,1) --> [1,2]
+        # todo: this is not pythonic
 
           :example:
           >>> translate_per([0, 0, 1, 1, 0, 1, 0, 1, 1, 1])
@@ -41,7 +42,8 @@ class Bool_Col():
                 ls.append(cnt)
                 cnt = 0
         ls.append(cnt)
-        return list(filter((0).__ne__, ls))
+        group = list(filter((0).__ne__, ls))
+        return group
 
     @property
     def space(self):

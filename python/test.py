@@ -8,7 +8,7 @@ Created on Tue Apr 17 2019
 @author: Tebinski
 """
 
-import aux_funs as af
+import aux_funs
 
 def main():
     """
@@ -78,8 +78,10 @@ def main():
 if __name__ == '__main__':
     print('todo ok')
 
-    mipermu = af.Permu()
-    mipermu.def_bool([1,0,1,1])
+    myBoolCol = aux_funs.Bool_Col([1,0,0,1])
+    myGroup   = aux_funs.Group_Col([2,3])
+
+
 
 
 
