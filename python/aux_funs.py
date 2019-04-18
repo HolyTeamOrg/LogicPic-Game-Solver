@@ -43,7 +43,7 @@ class Bool_Col():
                 cnt = 0
         ls.append(cnt)
         group = list(filter((0).__ne__, ls))
-        return group
+        return Group_Col(group)
 
     @property
     def space(self):
