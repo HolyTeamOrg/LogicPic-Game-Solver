@@ -18,6 +18,7 @@ import pandas as pd
 # CLASS DEFINITION
 
 class Bool_Col():
+    """ This class is the Bool_Col, is used to define a array of 0 and 1, to translate it to GroupClass"""
     def __init__(self, bool_notation):
         """ tuple or list as boolean info
         :example: (1,0,0,1)
