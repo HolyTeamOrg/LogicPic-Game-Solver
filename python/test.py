@@ -10,6 +10,7 @@ Created on Tue Apr 17 2019
 
 import aux_funs
 
+
 def main():
     """
     Given a row/col of length l, the number of possible combinations of 0 and 1,
@@ -78,12 +79,12 @@ def main():
 if __name__ == '__main__':
     print('todo ok')
 
-    myBoolCol = aux_funs.Bool_Col([1,0,0,1])
-    myGroup   = aux_funs.Group_Col([2,3])
+    # This is nice. Now we can define our data as boolean, and transform into a group
+    myBoolCol = aux_funs.Bool_Col([1, 0, 0, 1])
+    mygroup2 = myBoolCol.bool_to_group()
 
-
-
-
-
+    # And viceversa #todo
+    myGroup = aux_funs.Group_Col([2, 3])
+    my_invariables = myGroup.get_invariables(7)
 
     print('fin')
