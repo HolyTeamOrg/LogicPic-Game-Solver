@@ -52,7 +52,7 @@ class Bool_Col():
 
 
 class Group_Col():
-    """The Group_Col class,
+    """The Group_Col class, the main class
     #todo: change class name"""
 
     def __init__(self, group):
@@ -84,35 +84,34 @@ class Group_Col():
 
 # FUNCTIONS DEFINITION
 
-def gen_shift(group, s):
-    """For a group (gi,...,gk) and a given space s, generates de shift of the group
-    :example:
-    >>> group, space = (3,1,2), 10
-    >>> [ [1,1,1,0,1,0,1,1,0,0],
-    >>>   [0,1,1,1,0,1,0,1,1,0],
-    >>>   [0,0,1,1,1,0,1,0,1,1] ]"""
+    def gen_shift(self, s):
+        """For a group (gi,...,gk) and a given space s, generates de shift of the group
+        :example:
+        >>> group, space = (3,1,2), 10
+        >>> [ [1,1,1,0,1,0,1,1,0,0],
+        >>>   [0,1,1,1,0,1,0,1,1,0],
+        >>>   [0,0,1,1,1,0,1,0,1,1] ]"""
 
-    mygroup = Group_Col(group)
-    mybool = Group_Col.min_bool
-    min_space = len(mybool)
-    if s < min_space:
+        mygroup   = self.group
+        mybool    = self.min_bool
+        min_space = self.min_space
+        if s < min_space:
+            raise ValueError('not enough space')
+        else:
+            first = np.concatenate((mybool, np.zeros(s - min_space)))
+            solution = [first]
+            sol = first
+            for _ in range(s- min_space):
+                sol = np.roll(sol, 1)
+                solution = solution + [sol]
+            return np.vstack(solution)
 
-        return group
-    else:
-        first = np.concatenate((mybool, np.zeros(s - min_space)))
-        solution = [first]
-        sol = first
-        for _ in range(s- min_space):
-            sol = np.roll(sol, 1)
-            solution = solution + [sol]
-        return np.vstack(solution)
 
+    def get_invariables(self, s):
+        """ Calculates the invariables for a group on a space s
 
-def get_invariables(group, s):
-    """ Calculates the invariables for a group on a space s
-
-    :param n: int
-    :param s: integer
-    """
-    ar_possibles = gen_shift(group, s)
-    return np.all(ar_possibles, axis=0)
+        :param n: int
+        :param s: integer
+        """
+        ar_possibles = Group_Col.gen_shift(s)
+        return np.all(ar_possibles, axis=0)
